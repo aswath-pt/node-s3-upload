@@ -20,21 +20,24 @@ app.get('/', (req, res) => {
   `);
 });
 
-app.post('/api/upload', async (req, res) => {
-  await fileparser(req)
-  .then(data => {
-    res.status(200).json({
-      message: "Success",
-      data
+  app.post('/api/upload', async (req, res) => {
+    await fileparser(req)
+    .then(data => {
+      // Extract the file name and the bucket name from the data
+      res.status(200).json({
+        message: "Success",
+        Bucket: data.Bucket,
+        Key: data.Key
+      })
     })
-  })
-  .catch(error => {
-    res.status(400).json({
-      message: "An error occurred.",
-      error
+    .catch(error => {
+      res.status(400).json({
+        message: "An error occurred.",
+        error
+      })
     })
-  })
-});
+  });
+  
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.`);
